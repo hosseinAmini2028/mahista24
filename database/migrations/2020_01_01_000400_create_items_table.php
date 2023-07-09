@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('logo_image')->nullable();
             $table->string('main_image');
             $table->unsignedInteger('price')->nullable();
-            $table->json('image_gallery');
-            $table->json('contact_data');
-            $table->json('social_links')->nullable();
-            $table->json('location')->nullable();
+            $table->longText('image_gallery');
+            $table->longText('contact_data');
+            $table->longText('social_links')->nullable();
+            $table->longText('location')->nullable();
             $table->foreignId('categore_id')->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->enum('status',[0,1])->default(1);

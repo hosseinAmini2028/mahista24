@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Auth;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminAuth extends Controller
 {
@@ -14,30 +14,30 @@ class AdminAuth extends Controller
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
+            if ($validator->fails()) {
+                $notification = array(
+                    'message' => 'نام کاربری یا رمز عبور نادرست است.',
+                    'alert-type' => 'error'
+                );
+                return back()->with($notification);
+            }
 
-        if ($validator->fails()) {
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                if ($request->session()->regenerate()) {
+                    return redirect()->route('admin.dashboard');
+                }
+            }
+
             $notification = array(
                 'message' => 'نام کاربری یا رمز عبور نادرست است.',
                 'alert-type' => 'error'
             );
+
             return back()->with($notification);
-        }
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
-
-            return redirect()->route('admin.dashboard');
-        }
-
-        $notification = array(
-            'message' => 'نام کاربری یا رمز عبور نادرست است.',
-            'alert-type' => 'error'
-        );
-        return back()->with($notification);
     }
 
     /** 
