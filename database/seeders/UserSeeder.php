@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'mahtisatourism62601@gmail.com',
             'phone' => '09358356537',
             'password' => Hash::make('12345'),
+            'role' => 'admin'
         ]);
     }
 }

@@ -14,22 +14,15 @@ class AdminAuth extends Controller
      */
     public function login(Request $request)
     {
-            $validator = Validator::make($request->all(), [
+            $credentials = $request->validate([
                 'email' => ['required', 'email'],
                 'password' => ['required'],
             ]);
-            if ($validator->fails()) {
-                $notification = array(
-                    'message' => 'نام کاربری یا رمز عبور نادرست است.',
-                    'alert-type' => 'error'
-                );
-                return back()->with($notification);
-            }
+     
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
 
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                if ($request->session()->regenerate()) {
-                    return redirect()->route('admin.dashboard');
-                }
+                return redirect()->route('admin.dashboard');
             }
 
             $notification = array(
