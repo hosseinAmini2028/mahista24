@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('price')->nullable();
             $table->json('image_gallery');
             $table->json('contact_data');
-            $table->json('social_links')->default('[]');
+            $table->json('social_links')->nullable();
             $table->json('location')->nullable();
             $table->foreignId('categore_id')->constrained();
             $table->foreignId('user_id')->nullable()->constrained();
