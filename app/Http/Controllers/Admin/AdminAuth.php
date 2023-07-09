@@ -36,9 +36,13 @@ class AdminAuth extends Controller
     /** 
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        if($request->user() && $request->user()->role == 'admin'){
+            return redirect()->route('admin.dashboard');
+        }
+        return view('admin.login');
+
     }
 
     /**

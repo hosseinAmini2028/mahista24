@@ -13,11 +13,6 @@
     <link href="{{asset('admin-assets/css/rtl.css')}}" rel="stylesheet">
 
 </head>
-<?php 
-  if(Auth::user() && Auth::user()->role === 'admin'){
-    return redirect()->route('admin.dashboard');
-  }
-?>
 <body class="h-100">
     <div class="authincation h-100">
         <div class="container-fluid h-100">

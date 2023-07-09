@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Theme;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PaymentController;
+use App\Models\Categore;
 use App\Models\Item;
 use App\Models\ItemRoomType;
 use App\Models\Order;
@@ -48,7 +49,6 @@ class OrderCtrl extends Controller
         ]);
 
         if ($validate->fails()) {
-            die(var_dump($validate->errors()));
             $notification = array(
                 'message' => 'مقادیر ورودی معتبر نیست.',
                 'alert-type' => 'error'
@@ -64,13 +64,15 @@ class OrderCtrl extends Controller
             ]);
         }
 
+        $categore = Categore::findOrFail($request->categore_id);
         $startDate = null;
         $endDate = null;
         $dayCount = 0;
-        if ($request->categore_id == 1) {
+
+        if ($categore->slug == 'hotels') {
             $startDate = Jalalian::fromFormat('Y/m/d', $this->convert($request->start_at))->toCarbon();
             $endDate = Jalalian::fromFormat('Y/m/d', $this->convert($request->end_at))->toCarbon();
-            $dayCount = $endDate->diffInDays($startDate) ?? 1;
+            $dayCount = $endDate->diffInDays($startDate) + 1;
         }
 
         $total_price = 0;
@@ -79,7 +81,7 @@ class OrderCtrl extends Controller
 
         foreach ($request->qutity as $key => $value) {
             $price = 0;
-            if ($request->categore_id == 1) {
+            if ($categore->slug == 'hotels') {
                 $roomType = ItemRoomType::findOrFail($key);
                 $price = $roomType->price * $value['count'] * $dayCount;
             } else {

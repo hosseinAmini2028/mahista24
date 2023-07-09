@@ -24,9 +24,7 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/pay', 'App\Http\Controllers\PaymentController@index')->name('pay');
 
 Route::get('/detail/{slug}',[ThemeItemCtrl::class,'show']);
-Route::get('adminlogin',function(){
-   return view('admin.login');
-});
+Route::get('adminlogin',[AdminAuth::class,'index']);
 Route::post('adminlogin',[AdminAuth::class,'login'])->name('admin.login');
 
 Route::get('admin',[DashboardController::class,'index'])->name('admin.dashboard')->middleware('auth.admin');

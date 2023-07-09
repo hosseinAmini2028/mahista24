@@ -96,7 +96,7 @@
                     <form action="{{route('order.create')}}" method="post">
                        @csrf
                        <input type="hidden" value="{{$item->id}}" name="item_id" />
-                       <input type="hidden" value="{{$item->categore_id}}" name="item_id" />
+                       <input type="hidden" value="{{$item->categore_id}}" name="categore_id" />
                        <div class="mb-3 pb-3 border-bottom">
                            @if($item->categore_id == 1)
                            @foreach($item->roomTypes as $roomtype)
