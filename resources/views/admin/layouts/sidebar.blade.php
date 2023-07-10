@@ -1,53 +1,27 @@
 <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li><a class="has-arrow" href="{{route('admin.dashboard')}}" aria-expanded="false"><i
+                    <li> <a shref="{{route('admin.dashboard')}}" aria-expanded="false"><i
                                 class="icon icon-single-04"></i><span class="nav-text">داشبورد</span></a>
                     </li>
-                    <li><a class="has-arrow" href="{{route('admin.items.index')}}" aria-expanded="false"><i
-                                class="icon icon-app-store"></i><span class="nav-text">مجموعه ها</span></a>
+                    
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                    class="icon icon-world-2"></i><span class="nav-text">مجموعه ها</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{route('admin.items.index')}}">لیست مجموعه ها</a></li>
+                            <li><a href="{{route('admin.items.create')}}">افزودن مجموعه</a></li>
+                        </ul>
                     </li>
-                    <li><a class="has-arrow" href="{{route('admin.items.create')}}" aria-expanded="false"><i
-                                class="icon icon-app-store"></i><span class="nav-text">افزودن مجموعه</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                    class="icon icon-world-2"></i><span class="nav-text">سفارشات</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{route('admin.orders.index')}}">لیست سفارشات</a></li>
+                        </ul>
                     </li>
-                    <li><a class="has-arrow" href="{{route('admin.logout')}}" aria-expanded="false"><i
+                    <li><a href="{{route('admin.logout')}}" aria-expanded="false"><i
                                 class="icon icon-power-level"></i><span class="nav-text">خروج</span></a>
                     </li>
-                    <!-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-chart-bar-33"></i><span class="nav-text">Charts</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="chart-flot.html">Flot</a></li>
-                            <li><a href="chart-morris.html">Morris</a></li>
-                            <li><a href="chart-chartjs.html">Chartjs</a></li>
-                            <li><a href="chart-chartist.html">Chartist</a></li>
-                            <li><a href="chart-sparkline.html">Sparkline</a></li>
-                            <li><a href="chart-peity.html">Peity</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Components</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-world-2"></i><span class="nav-text">Bootstrap</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="ui-accordion.html">Accordion</a></li>
-                            <li><a href="ui-alert.html">Alert</a></li>
-                            <li><a href="ui-badge.html">Badge</a></li>
-                            <li><a href="ui-button.html">Button</a></li>
-                            <li><a href="ui-modal.html">Modal</a></li>
-                            <li><a href="ui-button-group.html">Button Group</a></li>
-                            <li><a href="ui-list-group.html">List Group</a></li>
-                            <li><a href="ui-media-object.html">Media Object</a></li>
-                            <li><a href="ui-card.html">Cards</a></li>
-                            <li><a href="ui-carousel.html">Carousel</a></li>
-                            <li><a href="ui-dropdown.html">Dropdown</a></li>
-                            <li><a href="ui-popover.html">Popover</a></li>
-                            <li><a href="ui-progressbar.html">Progressbar</a></li>
-                            <li><a href="ui-tab.html">Tab</a></li>
-                            <li><a href="ui-typography.html">Typography</a></li>
-                            <li><a href="ui-pagination.html">Pagination</a></li>
-                            <li><a href="ui-grid.html">Grid</a></li>
-
-                        </ul>
-                    </li>
+                    <!-- 
 
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-plug"></i><span class="nav-text">Plugins</span></a>

@@ -50,7 +50,7 @@ use Morilog\Jalali\Jalalian;
                                     <td>{{$item->categore->title}}</td>
                                     <td>{{@$item->contact_data['address'] ?? 'ثبت نشده'}}</td>
                                     <td>{{@$item->contact_data['phone'] ?? 'ثبت نشده'}}</td>
-                                    <td>{{Jalalian::fromCarbon($item->created_at)->format('%Y/%m/%d h:i')}}</td>
+                                    <td class="ltr">{{Jalalian::fromCarbon($item->created_at)->format('%Y/%m/%d h:i')}}</td>
                                     <td>{{$item->price}}</td>
                                     <td>{{$item->status=='1' ? 'فعال' : 'غیر فعال'}}</td>
                                     <td>

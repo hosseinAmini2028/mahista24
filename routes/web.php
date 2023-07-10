@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ItemCtrl;
+use App\Http\Controllers\Admin\OrderCtrl as AdminOrderCtrl;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Theme\HomeController;
 use App\Http\Controllers\Theme\ItemCtrl as ThemeItemCtrl;
@@ -41,6 +42,10 @@ Route::prefix('admin/items')->name('admin.items.')->middleware(['auth.admin'])->
   Route::get('/{item_id}',[ItemCtrl::class,'delete'])->name('delete');
   Route::get('/',[ItemCtrl::class,'index'])->name('index');
   Route::post('/',[ItemCtrl::class,'store'])->name('store');
+});
+
+Route::prefix('admin/orders')->name('admin.orders.')->middleware(['auth.admin'])->group(function(){
+  Route::get('/',[AdminOrderCtrl::class,'index'])->name('index');
 });
 
 Route::post('orders',[OrderCtrl::class,'store'])->name('order.create');

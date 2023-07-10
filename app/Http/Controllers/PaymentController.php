@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Reserve;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Invoice;
 use Shetabit\Payment\Facade\Payment;
@@ -40,6 +42,10 @@ class PaymentController extends Controller
             $message = sprintf('سفارش شما (%s) با شماره پیگیری %d با موفقیت پرداخت شد.', $transaction->order_id, $receipt->getReferenceId());
 
             $transaction->update(['reference_id' => $receipt->getReferenceId()]);
+
+            Order::where('id',$transaction->order_id)->update(['status'=>'payed']);
+            Reserve::where('order_id',$transaction->order_id)->update(['status'=>'payed']);
+
 
         }catch (InvalidPaymentException $exception) {
             $transaction->update(['status' => $request->post("StateCode"), 'description' => $request->post('State')]);
