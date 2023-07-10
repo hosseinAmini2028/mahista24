@@ -11,18 +11,24 @@ class PaymentController extends Controller
 {
     public function index($orderId, $amount)
     {
+        $invoice = (new Invoice)->amount($amount);
+
+        $invoice->detail(['transaction_id' => $invoice->getTransactionId()]);
+
+        $uuid = $invoice->getUuid();
+
         return Payment::purchase(
-            (new Invoice)->amount($amount),
-            function($driver, $transactionId) use($amount, $orderId) {
+            $invoice,
+            function($driver, $transactionId) use($amount, $orderId, $uuid) {
                 \App\Models\Payment::query()
-                    ->create(['transaction_id' => $transactionId, 'amount' => $amount, 'order_id' => $orderId]);
+                    ->create(['transaction_id' => $uuid, 'amount' => $amount, 'order_id' => $orderId]);
             }
         )->pay()->render();
     }
 
     public function callback(Request $request)
     {
-        $transaction = \App\Models\Payment::query()->where('transaction_id', $request->post('RefNum'))->first();
+        $transaction = \App\Models\Payment::query()->where('transaction_id', $request->post('ResNum'))->first();
 
         if (!$transaction) {
             return redirect()->route('home');
