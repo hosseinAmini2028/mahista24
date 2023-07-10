@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('payment_id')->constrained();
+            $table->foreignId('payment_id')->nullable()->constrained();
             $table->enum('status',['payed','waittopay','error']);
             $table->unsignedInteger('total_price');
             $table->timestamps();

@@ -7,13 +7,13 @@ use Shetabit\Payment\Facade\Payment;
 
 class PaymentController extends Controller
 {
-    public function index($amount)
+    public function index($orderId, $amount)
     {
         return Payment::purchase(
             (new Invoice)->amount($amount),
-            function($driver, $transactionId) {
-                // Store transactionId in database.
-                // We need the transactionId to verify payment in the future.
+            function($driver, $transactionId) use($amount, $orderId) {
+                \App\Models\Payment::query()
+                    ->create(['transaction_id' => $transactionId, 'amount' => $amount, 'order_id' => $orderId]);
             }
         )->pay()->render();
     }

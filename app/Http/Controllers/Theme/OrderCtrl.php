@@ -39,18 +39,18 @@ class OrderCtrl extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'item_id' => 'required',
-            'name' => 'required',
-            'phone' => 'required',
-            'meliCode' => 'required',
-            'start_at' => 'required_if:categore_id,1',
-            'end_at' => 'required_if:categore_id,1',
+            'item_id'        => 'required',
+            'name'           => 'required',
+            'phone'          => 'required',
+            'meliCode'       => 'required',
+            'start_at'       => 'required_if:categore_id,1',
+            'end_at'         => 'required_if:categore_id,1',
             'qutity.*.count' => 'required|numeric|min:0',
         ]);
 
         if ($validate->fails()) {
             $notification = array(
-                'message' => 'مقادیر ورودی معتبر نیست.',
+                'message'    => 'مقادیر ورودی معتبر نیست.',
                 'alert-type' => 'error'
             );
             return back()->with($notification);
@@ -58,8 +58,8 @@ class OrderCtrl extends Controller
         $user = User::where('phone', $request->phone)->first();
         if (!$user) {
             $user = User::create([
-                'name' => $request->name,
-                'phone' => $request->phone,
+                'name'     => $request->name,
+                'phone'    => $request->phone,
                 'meliCode' => $request->meliCode,
             ]);
         }
@@ -92,32 +92,29 @@ class OrderCtrl extends Controller
             $total_count += $value['count'];
             $total_price += $price;
             $reserves[] = [
-                'item_id' => $request->item_id,
-                'user_id' => $user->id,
-                'price' => $price,
-                'count' => $value['count'],
-                'item_room_type_id' =>$request->categore_id == 1 ?  $roomType->id : null,
-                'start_at' => $startDate,
-                'end_at' => $endDate,
+                'item_id'           => $request->item_id,
+                'user_id'           => $user->id,
+                'price'             => $price,
+                'count'             => $value['count'],
+                'item_room_type_id' => $request->categore_id == 1 ? $roomType->id : null,
+                'start_at'          => $startDate,
+                'end_at'            => $endDate,
             ];
         }
 
         if ($total_count === 0) {
             $notification = array(
-                'message' => 'مقادیر ورودی معتبر نیست.',
+                'message'    => 'مقادیر ورودی معتبر نیست.',
                 'alert-type' => 'error'
             );
             return back()->with($notification);
         }
 
-        $payment = Payment::create([]);
-
         $order = Order::create([
-            'item_id' => $request->item_id,
-            'status' => 'waittopay',
+            'item_id'     => $request->item_id,
+            'status'      => 'waittopay',
             'total_price' => $total_price,
-            'user_id' => $user->id,
-            'payment_id' => $payment->id
+            'user_id'     => $user->id,
         ]);
 
         foreach ($reserves as &$value) {
@@ -125,8 +122,7 @@ class OrderCtrl extends Controller
             Reserve::create($value);
         }
 
-
-        return (new PaymentController())->index($order->total_price);
+        return (new PaymentController())->index($order->id, $order->total_price);
     }
 
     function convert($string)
@@ -140,6 +136,7 @@ class OrderCtrl extends Controller
 
         return $englishNumbersOnly;
     }
+
     /**
      * Display the specified resource.
      */
