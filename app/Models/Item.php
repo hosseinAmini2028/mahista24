@@ -15,7 +15,14 @@ class Item extends Model
         'contact_data' => 'json',
         'location' => 'json',
     ];
-    public function roomTypes(){
-        return $this->belongsToMany(RoomType::class,'item_room_types')->withPivot(['price','id']);
+    public function roomTypes()
+    {
+        return $this->belongsToMany(RoomType::class, 'item_room_types')
+            ->withPivot(['price', 'id'])->where('status','1');
+    }
+
+    public function categore()
+    {
+        return $this->belongsTo(Categore::class);
     }
 }

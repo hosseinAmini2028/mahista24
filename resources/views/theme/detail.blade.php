@@ -94,99 +94,106 @@
                     </div>
                     <!-- Place pricing-->
                     <form action="{{route('order.create')}}" method="post">
-                       @csrf
-                       <input type="hidden" value="{{$item->id}}" name="item_id" />
-                       <input type="hidden" value="{{$item->categore_id}}" name="categore_id" />
-                       <div class="mb-3 pb-3 border-bottom">
-                           @if($item->categore_id == 1)
-                           @foreach($item->roomTypes as $roomtype)
-                           <div class="row justify-content-between my-2 align-items-center">
-                               <div class="col-4 mb-sm-0 mb-3">
-                                   <h4 class="h5 mb-0">
-                                       <span class="fs-5">{{$roomtype->title}}</span>
-                                   </h4>
-                               </div>
-                               <div class="col-4 mb-sm-0 mb-3">
-                                   <h4 class="h5 mb-0">
-                                       <span class="fs-5">{{$roomtype->pivot->price}} تومان </span>
-                                       <span class="fs-base fw-normal text-body">/شب</span>
-                                   </h4>
-                               </div>
-                               <div class="col-4 mb-sm-0 mb-3">
-                                   <div class="qutity-btns">
-                                       <button class="fs-5 fw-bold sub-btn" id="sub-btn" onclick="addQuntity(event,'qutity-input-{{$roomtype->pivot->id}}')">+</button>
-                                       <input type="number" id="qutity-input-{{$roomtype->pivot->id}}" name="qutity[{{$roomtype->pivot->id}}][count]" value="0" />
-                                       <button class="fs-5 fw-bold add-btn" id="add-btn" onclick="subQuntity(event,'qutity-input-{{$roomtype->pivot->id}}')">-</button>
-                                   </div>
-                               </div>
-                           </div>
-                           @endforeach
-                          
-                           <h5 class="fs-6 mt-3 mb-0">مدت زمان اقامت</h5>
-                           <div class="row">
-                               <div class="col-sm-4">
+                        @csrf
+                        <input type="hidden" value="{{$item->id}}" name="item_id" />
+                        <input type="hidden" value="{{$item->categore_id}}" name="categore_id" />
+                        <div class="mb-3 pb-3 border-bottom">
+                            @if($item->categore_id == 1)
+                            @foreach($item->roomTypes as $roomtype)
+                            <div class="row justify-content-between my-2 align-items-center">
+                                <div class="col-4 mb-sm-0 mb-3">
+                                    <h4 class="h5 mb-0">
+                                        <span class="fs-5">{{$roomtype->title}}</span>
+                                    </h4>
+                                </div>
+                                <div class="col-4 mb-sm-0 mb-3">
+                                    <h4 class="h5 mb-0">
+                                        <span class="fs-5">{{$roomtype->pivot->price}} تومان </span>
+                                        <span class="fs-base fw-normal text-body">/شب</span>
+                                    </h4>
+                                </div>
+                                <div class="col-4 mb-sm-0 mb-3">
+                                    <div class="qutity-btns">
+                                        <button class="fs-5 fw-bold sub-btn" id="sub-btn" onclick="addQuntity(event,'qutity-input-{{$roomtype->pivot->id}}')">+</button>
+                                        <input type="number" id="qutity-input-{{$roomtype->pivot->id}}" name="qutity[{{$roomtype->pivot->id}}][count]" value="0" />
+                                        <button class="fs-5 fw-bold add-btn" id="add-btn" onclick="subQuntity(event,'qutity-input-{{$roomtype->pivot->id}}')">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
+                            <h5 class="fs-6 mt-3 mb-0">مدت زمان اقامت</h5>
+                            <div class="row">
+                                <div class="col-sm-4">
                                     <label>شروع</label>
                                     <input required id="date_start_at" name="start_at" class="form-control" placeholder="">
                                 </div>
                                 <div class="col-sm-4">
-                                   <label>پایان</label>
-                                   <input type="text" required id="date_end_at" name="end_at" class="form-control" placeholder="">
-                               </div>
-                           </div>
-                           
-                           @else
-                           <div class="row row-cols-sm-2 row-cols-2">
-                               <div class="col mb-sm-0 mb-3">
-                                   <h4 class="h5 mb-0">
-                                       <span class="fs-5">قیمت: </span>
-                                       <span class="fs-5">{{$item->price}} تومان </span>
-                                   </h4>
-                               </div>
-                               <div class="qutity-btns p-0">
-                                   <button class="fs-5 fw-bold sub-btn" id="sub-btn" onclick="addQuntity(event,'qutity-input')">+</button>
-                                   <input type="number" id="qutity-input" name="qutity[1][count]" value="1" />
-                                   <button class="fs-5 fw-bold add-btn" id="add-btn" onclick="subQuntity(event,'qutity-input')">-</button>
-                               </div>
-                           </div>
-                               </div>
-                           @endif
-                           <h5 class="fs-6 mb-0 mt-1">مشخصات فردی</h5>
-                           <div class="row">
-                               <div class="col-sm-4">
-                                   <input type="text" required name="name" class="form-control" placeholder="نام">
-                               </div>
-                               <div class="col-sm-4">
-                                   <input type="text" required name="phone" class="form-control" placeholder="شماره تلفن">
-                               </div>
-                               <div class="col-sm-4">
-                                   <input type="text" required name="meliCode" class="form-control" placeholder="کد ملی">
-                               </div>
-                           </div>
-                           <div class="row mt-3">
-                               <div class="col d-flex justify-content-end">
-                                   <button class="btn btn-primary btn-lg rounded-pill w-sm-auto w-100" type="submit">
-                                       رزرو و پرداخت آنلاین
-                                       <i class="fi-chevron-right fs-sm ms-2"></i>
-                                   </button>
-                               </div>
-                           </div>
-                       </div>
-                    </form>
-                    <!-- Follow-->
-                    <div class="d-flex align-items-center">
-                        <h4 class="h5 mb-0 me-3">دنبال کردن: </h4>
-                        <div class="text-nowrap"><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-facebook"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-instagram"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle" href="#"><i class="fi-twitter"></i></a></div>
-                    </div>
+                                    <label>پایان</label>
+                                    <input type="text" required id="date_end_at" name="end_at" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            @else
+                            @if($item->categore->slug == 'tors')
+                            <div class="row my-2 border-bottom">
+                                <p>
+                                    {!! $item->description !!}
+                                </p>
+                            </div>
+                            @endif
+                            <div class="row row-cols-sm-2 row-cols-2">
+                                <div class="col mb-sm-0 mb-3">
+                                    <h4 class="h5 mb-0">
+                                        <span class="fs-5">قیمت: </span>
+                                        <span class="fs-5">{{$item->price}} تومان </span>
+                                    </h4>
+                                </div>
+                                <div class="qutity-btns p-0">
+                                    <button class="fs-5 fw-bold sub-btn" id="sub-btn" onclick="addQuntity(event,'qutity-input')">+</button>
+                                    <input type="number" id="qutity-input" name="qutity[1][count]" value="1" />
+                                    <button class="fs-5 fw-bold add-btn" id="add-btn" onclick="subQuntity(event,'qutity-input')">-</button>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        <h5 class="fs-6 mb-0 mt-1">مشخصات فردی</h5>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input type="text" required name="name" class="form-control" placeholder="نام">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" required name="phone" class="form-control" placeholder="شماره تلفن">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" required name="meliCode" class="form-control" placeholder="کد ملی">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col d-flex justify-content-end">
+                                <button class="btn btn-primary btn-lg rounded-pill w-sm-auto w-100" type="submit">
+                                    رزرو و پرداخت آنلاین
+                                    <i class="fi-chevron-right fs-sm ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+                </form>
+                <!-- Follow-->
+                <div class="d-flex align-items-center">
+                    <h4 class="h5 mb-0 me-3">دنبال کردن: </h4>
+                    <div class="text-nowrap"><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-facebook"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle me-2" href="#"><i class="fi-instagram"></i></a><a class="btn btn-icon btn-light-primary btn-xs shadow-sm rounded-circle" href="#"><i class="fi-twitter"></i></a></div>
                 </div>
             </div>
         </div>
-        <!-- Location (Map)-->
-        <div class="col-md-5">
-            <div class="position-relative bg-size-cover bg-position-center bg-repeat-0 h-100 rounded-3" style="background-image: url({{ asset('theme-assets/img/city-guide/single/map.jpg') }}); min-height: 250px;">
-                <div class="d-flex h-100 flex-column align-items-center justify-content-center"><img class="d-block mx-auto mb-4 rounded-circle bg-white shadow" src="{{ asset('theme-assets/img/city-guide/brands/hotel.svg') }}" width="40" alt="Place logo"><a class="btn btn-primary rounded-pill stretched-link" href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2423.924340088787!2d13.428504251724927!3d52.58906113876177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a85284201593ab%3A0x28af69e02ce0e2fc!2sBusinesshotel%20Berlin!5e0!3m2!1sru!2sua!4v1618908622013!5m2!1sru!2sua" data-iframe="true" data-bs-toggle="lightbox"><i class="fi-route me-2"></i>مشاهده نقشه</a>
-                </div>
+    </div>
+    <!-- Location (Map)-->
+    <div class="col-md-5">
+        <div class="position-relative bg-size-cover bg-position-center bg-repeat-0 h-100 rounded-3" style="background-image: url({{ asset('theme-assets/img/city-guide/single/map.jpg') }}); min-height: 250px;">
+            <div class="d-flex h-100 flex-column align-items-center justify-content-center"><img class="d-block mx-auto mb-4 rounded-circle bg-white shadow" src="{{ asset('theme-assets/img/city-guide/brands/hotel.svg') }}" width="40" alt="Place logo"><a class="btn btn-primary rounded-pill stretched-link" href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2423.924340088787!2d13.428504251724927!3d52.58906113876177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a85284201593ab%3A0x28af69e02ce0e2fc!2sBusinesshotel%20Berlin!5e0!3m2!1sru!2sua!4v1618908622013!5m2!1sru!2sua" data-iframe="true" data-bs-toggle="lightbox"><i class="fi-route me-2"></i>مشاهده نقشه</a>
             </div>
         </div>
+    </div>
     </div>
 </section>
 <script>
@@ -195,7 +202,7 @@
             format: 'YYYY/MM/DD',
         });
         $('#date_end_at').persianDatepicker({
-            format: 'YYYY/MM/DD', 
+            format: 'YYYY/MM/DD',
         });
     });
 

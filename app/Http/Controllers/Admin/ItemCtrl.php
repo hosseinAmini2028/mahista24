@@ -16,9 +16,14 @@ class ItemCtrl extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        //
+        $items = Item::with(['categore'])->orderBy('created_at', 'DESC')->paginate(15);
+
+        return view('admin.items.index', [
+            'items' => $items
+        ]);
     }
 
     /**
@@ -63,7 +68,8 @@ class ItemCtrl extends Controller
         $item = [
             'title' => $request->title,
             'slug' => Carbon::now()->timestamp . '-' . $slug,
-            'categore_id' => $request->categore_id
+            'categore_id' => $request->categore_id,
+            'description' => $request->description,
         ];
 
 
@@ -77,10 +83,12 @@ class ItemCtrl extends Controller
         }
         $image_gallery = [];
 
-        foreach ($request->file('image_gallery') as $image) {
-            $image_gallery[] = [
-                'url' =>  FileUploader::move($image, 'items')
-            ];
+        if ($request->file('image_gallery')) {
+            foreach ($request->file('image_gallery') as $image) {
+                $image_gallery[] = [
+                    'url' =>  FileUploader::move($image, 'items')
+                ];
+            }
         }
         $item['image_gallery'] = $image_gallery;
         if (is_array($request->contact_data)) {
@@ -116,14 +124,14 @@ class ItemCtrl extends Controller
                 }
             }
 
-            $item->update(['price'=> $item->roomTypes()->pluck('price')->min()]);
+            $item->update(['price' => $item->roomTypes()->pluck('price')->min()]);
         }
 
         $notification = array(
             'message' => 'تغییرات با موفقیت ذخیره شد.',
             'alert-type' => 'success'
         );
-        return redirect()->route('admin.dashboard')->with($notification);
+        return redirect()->route('admin.items.index')->with($notification);
     }
 
     /**
@@ -139,7 +147,15 @@ class ItemCtrl extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $item = Item::where('id', $id)->with(['categore', 'roomTypes'])->first();
+        if (!$item) {
+            abort(404);
+        }
+        return view('admin.items.edit', [
+            'item' => $item,
+            'itemCategores' => Categore::get(),
+            'roomTypes' => RoomType::get(),
+        ]);
     }
 
     /**
@@ -147,7 +163,93 @@ class ItemCtrl extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $item = Item::where('id', $id)->with(['categore', 'roomTypes'])->first();
+        if (!$item) {
+            abort(404);
+        }
+
+        $updateData = [
+            'title' => $request->title,
+            'categore_id' => $request->categore_id,
+            'description' => $request->description
+        ];
+
+        if ($request->file('main_image')) {
+            $updateData['main_image'] =  FileUploader::move($request->file('main_image'), 'items');
+        } 
+        if ($request->file('logo_image')) {
+            $updateData['logo_image'] =  FileUploader::move($request->file('logo_image'), 'items');
+        } 
+        $image_gallery = [];
+        if ($request->file('image_gallery')) {
+            foreach ($request->file('image_gallery') as $image) {
+                $image_gallery[] = [
+                    'url' =>  FileUploader::move($image, 'items')
+                ];
+            }
+            $updateData['image_gallery'] = $image_gallery;
+        }
+
+        if (is_array($request->contact_data)) {
+            $updateData['contact_data'] = [
+                'address' => @$request->contact_data['address'],
+                'phone' => @$request->contact_data['phone'],
+                'email' => @$request->contact_data['email'],
+                'website' => @$request->contact_data['website'],
+            ];
+        }
+        if (is_array($request->social_links)) {
+            $updateData['social_links'] = [
+                'facebook' => @$request->social_links['facebook'],
+                'twitter' => @$request->social_links['twitter'],
+                'instagram' => @$request->social_links['instagram'],
+            ];
+        }
+
+        $item->update($updateData);
+        if ($item->categore->slug  != 'hotels') {
+            $item->update(['price' => $request->price]);
+        } else {
+            foreach ($request->roomType as $key => $roomType) {
+                $existRoomType = null;
+                foreach ($item->roomTypes as $value) {
+                    if ($key == $value->id) {
+                        $existRoomType = $value;
+                        break;
+                    }
+                }
+                if ($existRoomType) {
+                    $item->roomTypes()->updateExistingPivot($key, [
+                        'price' => $roomType['price']
+                    ]);
+                } else {
+                    $item->roomTypes()->attach($key, ['price' => $roomType['price']]);
+                }
+            }
+
+
+            foreach ($item->roomTypes as $value) {
+                $existRoomType = null;
+                foreach ($request->roomType as $key => $r) {
+                    if ($key == $value->id) {
+                        $existRoomType = $value;
+                        break;
+                    }
+                }
+                if (!$existRoomType) {
+                    $item->roomTypes()->updateExistingPivot($value->id, [
+                        'status' => '0'
+                    ]);
+                }
+            }
+            $item->update(['price' => $item->roomTypes()->pluck('price')->min()]);
+        }
+
+        $notification = array(
+            'message' => 'تغییرات با موفقیت ذخیره شد.',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.items.edit', ['item_id' => $item->id])->with($notification);
     }
 
     /**
@@ -155,6 +257,17 @@ class ItemCtrl extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $item = Item::where('id', $id)->first();
+        if (!$item) {
+            abort(404);
+        }
+
+        $item->update(['status' => '0']);
+
+        $notification = array(
+            'message' => 'تغییرات با موفقیت ذخیره شد.',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.items.index', ['item_id' => $item->id])->with($notification);
     }
 }

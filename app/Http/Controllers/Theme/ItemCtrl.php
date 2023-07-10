@@ -39,7 +39,7 @@ class ItemCtrl extends Controller
     {
         $item = Item::where('slug', $slug)->with(['roomTypes'])->first();
 
-        if (!$item) {
+        if (!$item || $item->status == '0') {
             return abort(404);
         }
         return view('theme.detail', ['item' => $item]);

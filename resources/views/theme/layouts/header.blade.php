@@ -1,7 +1,7 @@
 <!-- Navbar-->
 <header class="navbar navbar-expand-lg navbar-light fixed-top" data-scroll-header>
     <div class="container">
-        <a class="navbar-brand ms-3 ms-xl-4 logo" href=""><img class="d-block"
+        <a class="navbar-brand ms-3 ms-xl-4 logo" href="route('home')"><img class="d-block"
                 src="{{ asset('theme-assets/img/logo/mahtisa-logo.png') }}" width="150" alt="Finder"></a>
         <butheme-assetstton class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

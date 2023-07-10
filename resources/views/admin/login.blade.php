@@ -36,7 +36,7 @@
                                         <div class="form-row d-flex justify-content-between mt-4 mb-2">
                                             <div class="form-group">
                                                 <div class="form-check mr-2">
-                                                    <input class="form-check-input" type="checkbox" id="basic_checkbox_1">
+                                                    <input class="form-check-input" type="checkbox" id="basic_checkbox_1" name="remember_me">
                                                     <label class="form-check-label" for="basic_checkbox_1">مرا به خاطر داشته باش</label>
                                                 </div>
                                             </div>
