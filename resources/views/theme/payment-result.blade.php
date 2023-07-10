@@ -1,5 +1,7 @@
 @extends('theme.layouts.master')
 
+@section('title', 'نتیجه تراکنش')
+
 @section('content')
     <section class="container pt-5 mt-5">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-sm-2">
