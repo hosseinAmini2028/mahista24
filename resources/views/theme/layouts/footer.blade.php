@@ -20,11 +20,11 @@
             </div>
             <!-- Links-->
             <div class="col-lg-2 col-md-3 col-sm-4">
-
             </div>
             <!-- Links-->
             <div class="col-lg-2 col-md-3 col-sm-4">
-
+                <h3 class="h5 font-vazir text-light">اینماد</h3>
+                <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=228517&amp;Code=YYZL8tPZ9Qe1ZeIWQvdJ"><img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=228517&amp;Code=YYZL8tPZ9Qe1ZeIWQvdJ" alt="" style="cursor:pointer" id="YYZL8tPZ9Qe1ZeIWQvdJ"></a>
             </div>
             <!-- Subscription form-->
             <div class="col-lg-4 offset-lg-1">
