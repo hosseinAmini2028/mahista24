@@ -46,6 +46,6 @@ class PaymentController extends Controller
             $message = $exception->getMessage();
         }
 
-        return redirect()->route('home')->with('messages', $message);
+        return view('theme.payment-result')->with('messages', $message);
     }
 }
