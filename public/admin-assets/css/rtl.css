@@ -53,8 +53,35 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .logo-container img{
     max-width: 100%;
+}
+
+
+table.dataTable th {
+
+    border-color: #575757 !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    color: rgb(36, 36, 36) !important;
+    font-weight: 700 !important;
+    padding: 5px;
+}
+table.dataTable tbody td {
+    padding: 7px 10px;
+    border: 1px solid #c2bcbc !important;
+    font-weight: 700;
+    color: rgb(85, 85, 85);
+}
+
+.logo-container-delete{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 24px;
+    color: #e20e0e;
+    cursor: pointer;
 }

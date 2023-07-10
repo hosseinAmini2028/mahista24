@@ -26,12 +26,17 @@ Route::get('/pay', 'App\Http\Controllers\PaymentController@index')->name('pay');
 Route::get('/detail/{slug}',[ThemeItemCtrl::class,'show']);
 Route::get('adminlogin',[AdminAuth::class,'index']);
 Route::post('adminlogin',[AdminAuth::class,'login'])->name('admin.login');
+Route::get('adminlogout',[AdminAuth::class,'logout'])->middleware(['auth.admin'])->name('admin.logout');
 
 Route::get('admin',[DashboardController::class,'index'])->name('admin.dashboard')->middleware('auth.admin');
 
 
 Route::prefix('admin/items')->name('admin.items.')->middleware(['auth.admin'])->group(function(){
+  Route::get('/',[ItemCtrl::class,'index'])->name('index');
   Route::get('create',[ItemCtrl::class,'create'])->name('create');
+  Route::get('edit/{item_id}',[ItemCtrl::class,'edit'])->name('edit');
+  Route::post('/{item_id}',[ItemCtrl::class,'update'])->name('update');
+  Route::get('/{item_id}',[ItemCtrl::class,'delete'])->name('delete');
   Route::get('/',[ItemCtrl::class,'index'])->name('index');
   Route::post('/',[ItemCtrl::class,'store'])->name('store');
 });

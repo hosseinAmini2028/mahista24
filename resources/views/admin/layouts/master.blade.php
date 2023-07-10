@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('admin-assets/vendor/owl-carousel/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin-assets/vendor/owl-carousel/css/owl.theme.default.min.css')}}">
     <link href="{{asset('admin-assets/vendor/jqvmap/css/jqvmap.min.css')}}" rel="stylesheet">
+    @yield('styles')
     <link href="{{asset('admin-assets/css/toastr.css')}}" rel="stylesheet">
     <link href="{{asset('admin-assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('admin-assets/css/rtl.css')}}" rel="stylesheet">
@@ -44,7 +45,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-         @include('admin.layouts.header');
+        @include('admin.layouts.header');
 
         <!--**********************************
             Header end ti-comment-alt
@@ -53,7 +54,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        
+
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -64,7 +65,7 @@
         <div class="content-body">
             <!-- row -->
             <div class="container-fluid">
-              @yield('content');
+                @yield('content');
 
             </div>
         </div>
@@ -79,7 +80,7 @@
         <div class="footer">
             <div class="copyright">
                 <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p> 
+                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
             </div>
         </div>
         <!--**********************************
@@ -132,7 +133,7 @@
     <script src="{{asset('admin-assets/vendor/jquery.counterup/jquery.counterup.min.js')}}"></script>
     <script src="{{asset('admin-assets/js/toastr.js')}}"></script>
     <script src="{{asset('admin-assets/js/dashboard/dashboard-1.js')}}"></script>
-
+    @yield('scripts')
     <script>
         @if(Session::has('message'))
         var type = "{{ Session::get('alert-type','info') }}"

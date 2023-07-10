@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(){
-        
-        return view('theme.home',[
-            'items'=>Item::orderBy('created_at','DESC')->limit(3)->get()
+    public function index()
+    {
+
+        return view('theme.home', [
+            'items' => Item::where('status', '1')->orderBy('created_at', 'DESC')->limit(15)->get()
         ]);
     }
 }

@@ -14,23 +14,25 @@ class AdminAuth extends Controller
      */
     public function login(Request $request)
     {
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]);
-     
-            if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-                return redirect()->route('admin.dashboard');
-            }
+        $remember_me = $request->has('remember_me') ? true : false;
 
-            $notification = array(
-                'message' => 'نام کاربری یا رمز عبور نادرست است.',
-                'alert-type' => 'error'
-            );
+        if (Auth::attempt($credentials, $remember_me)) {
+            $request->session()->regenerate();
 
-            return back()->with($notification);
+            return redirect()->route('admin.items.index');
+        }
+
+        $notification = array(
+            'message' => 'نام کاربری یا رمز عبور نادرست است.',
+            'alert-type' => 'error'
+        );
+
+        return back()->with($notification);
     }
 
     /** 
@@ -38,50 +40,25 @@ class AdminAuth extends Controller
      */
     public function index(Request $request)
     {
-        if($request->user() && $request->user()->role == 'admin'){
+        if ($request->user() && $request->user()->role == 'admin') {
             return redirect()->route('admin.dashboard');
         }
         return view('admin.login');
-
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function logout(Request $request)
     {
-        //
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

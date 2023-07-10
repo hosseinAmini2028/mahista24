@@ -10,6 +10,9 @@
                     <li><a class="has-arrow" href="{{route('admin.items.create')}}" aria-expanded="false"><i
                                 class="icon icon-app-store"></i><span class="nav-text">افزودن مجموعه</span></a>
                     </li>
+                    <li><a class="has-arrow" href="{{route('admin.logout')}}" aria-expanded="false"><i
+                                class="icon icon-power-level"></i><span class="nav-text">خروج</span></a>
+                    </li>
                     <!-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-chart-bar-33"></i><span class="nav-text">Charts</span></a>
                         <ul aria-expanded="false">
