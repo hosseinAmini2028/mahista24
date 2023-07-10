@@ -242,7 +242,7 @@ return [
             'apiPaymentUrl' => 'https://sep.shaparak.ir/payment.aspx',
             'apiVerificationUrl' => 'https://sep.shaparak.ir/payments/referencepayment.asmx?WSDL',
             'merchantId' => '12611739',
-            'callbackUrl' => 'https://127.0.0.1:8000/callback',
+            'callbackUrl' => 'https://mahtisa24.ir/callback',
             'description' => 'payment using saman',
             'currency' => 'T', //Can be R, T (Rial, Toman)
         ],

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ItemCtrl;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Theme\HomeController;
 use App\Http\Controllers\Theme\ItemCtrl as ThemeItemCtrl;
 use App\Http\Controllers\Theme\OrderCtrl;
@@ -21,7 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 
-Route::get('/pay', 'App\Http\Controllers\PaymentController@index')->name('pay');
+Route::get('/pay', [PaymentController::class, 'index'])->name('pay');
+Route::post('/callback', [PaymentController::class, 'callback'])->name('callback');
 
 Route::get('/detail/{slug}',[ThemeItemCtrl::class,'show']);
 Route::get('adminlogin',[AdminAuth::class,'index']);
