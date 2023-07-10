@@ -35,9 +35,11 @@ class PaymentController extends Controller
         }
 
         try {
-            Payment::amount($transaction->amount)->transactionId($transaction->transaction_id)->verify();
+            $receipt = Payment::amount($transaction->amount)->transactionId($transaction->transaction_id)->verify();
 
-            $message = 'سفارش شما با  شماره '. $transaction->transaction_id . 'موفقیت ثبت شد';
+            $message = sprintf('سفارش شما (%s) با شماره پیگیری %d با موفقیت پرداخت شد.', $transaction->order_id, $receipt->getReferenceId());
+
+            $transaction->update(['reference_id' => $receipt->getReferenceId()]);
 
         }catch (InvalidPaymentException $exception) {
             $transaction->update(['status' => $request->post("StateCode"), 'description' => $request->post('State')]);
