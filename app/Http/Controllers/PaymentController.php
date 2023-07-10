@@ -22,14 +22,19 @@ class PaymentController extends Controller
 
     public function callback(Request $request)
     {
-        $transaction = \App\Models\Payment::query()->where('transaction_id', $request->post('RefNum'))->firstOrFail();
+        $transaction = \App\Models\Payment::query()->where('transaction_id', $request->post('RefNum'))->first();
+
+        if (!$transaction) {
+            return redirect()->route('home');
+        }
+
         try {
-            Payment::amount(1000)->transactionId($transaction->transaction_id)->verify();
+            Payment::amount($transaction->amount)->transactionId($transaction->transaction_id)->verify();
 
             $message = 'سفارش شما با  شماره '. $transaction->transaction_id . 'موفقیت ثبت شد';
 
         }catch (InvalidPaymentException $exception) {
-            $transaction->update(['status' => $exception->getCode(), 'description' => $exception->getMessage()]);
+            $transaction->update(['status' => $request->post("StateCode"), 'description' => $request->post('State')]);
             $message = $exception->getMessage();
         }
 
