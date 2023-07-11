@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('start_at')->nullable();
             $table->date('end_at')->nullable();
             $table->unsignedInteger('item_room_type_id')->nullable();
+            $table->enum('status',['payed','waittopay','error']);
             $table->timestamps();
         });
     }
