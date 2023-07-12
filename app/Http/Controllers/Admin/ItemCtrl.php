@@ -57,7 +57,6 @@ class ItemCtrl extends Controller
             'roomType.*.price' => 'required',
         ]);
         if ($validate->fails()) {
-            die(var_dump($validate->errors()));
             $notification = array(
                 'message' => 'مقادیر ورودی معتبر نیست.',
                 'alert-type' => 'error'
@@ -109,6 +108,13 @@ class ItemCtrl extends Controller
 
 
         if ($item['categore_id'] != 1) {
+            if(!$request->price){
+                $notification = array(
+                    'message' => 'مقدار قیمت ثبت نشده است.',
+                    'alert-type' => 'error'
+                );
+                return back()->with($notification);
+            }
             $item['price'] = convert($request->price);
         }
         $item = Item::create($item);
@@ -208,7 +214,9 @@ class ItemCtrl extends Controller
 
         $item->update($updateData);
         if ($item->categore->slug  != 'hotels') {
-            $item->update(['price' => convert($request->price)]);
+            if($request->price){
+                $item->update(['price' => convert($request->price)]);
+            }
         } else {
             foreach ($request->roomType as $key => $roomType) {
                 $existRoomType = null;
