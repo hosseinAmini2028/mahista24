@@ -19,7 +19,7 @@ class ItemCtrl extends Controller
 
     public function index()
     {
-        $items = Item::with(['categore'])->orderBy('created_at', 'DESC')->paginate(15);
+        $items = Item::where('status','1')->with(['categore'])->orderBy('created_at', 'DESC')->paginate(15);
 
         return view('admin.items.index', [
             'items' => $items
