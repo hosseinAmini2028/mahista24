@@ -39,10 +39,14 @@ class PaymentController extends Controller
         try {
             $receipt = Payment::amount($transaction->amount)->transactionId($transaction->transaction_id)->verify();
 
-            $message = sprintf('سفارش شما (%s) با شماره پیگیری %d با موفقیت پرداخت شد.', $transaction->order_id, $receipt->getReferenceId());
-
-            $transaction->update(['reference_id' => $receipt->getReferenceId()]);
-
+            $reference_id = $receipt->getReferenceId();
+            
+            $transaction->update(['reference_id' => $reference_id]);
+            
+          
+            $message = sprintf('سفارش شما (%s) با شماره پیگیری %d با موفقیت پرداخت شد.', $transaction->order_id, $reference_id);
+           
+           
             Order::where('id',$transaction->order_id)->update(['status'=>'payed']);
             Reserve::where('order_id',$transaction->order_id)->update(['status'=>'payed']);
 

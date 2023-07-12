@@ -11,7 +11,8 @@ class OrderCtrl extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['item','item.categore', 'item.roomTypes', 'user', 'payment', 'reserves', 'reserves.itemRoomType', 'reserves.itemRoomType.roomType'])->where('status', 'payed')->paginate(15);
+        $orders = Order::with(['item','item.categore', 'item.roomTypes', 'user', 'payment', 'reserves', 'reserves.itemRoomType', 'reserves.itemRoomType.roomType'])
+        ->where('status', 'payed')->orderBy('created_at','DESC')->paginate(15);
         return view('admin.orders.index', [
             'orders' => $orders
         ]);
