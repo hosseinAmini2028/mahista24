@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Reserve;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Shetabit\Multipay\Invoice;
 use Shetabit\Payment\Facade\Payment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
@@ -30,6 +31,7 @@ class PaymentController extends Controller
 
     public function callback(Request $request)
     {
+        Log::debug('PaymentGateway: ', $request->all());
         $transaction = \App\Models\Payment::query()->where('transaction_id', $request->post('ResNum'))->first();
 
         if (!$transaction) {
@@ -45,7 +47,7 @@ class PaymentController extends Controller
             
           
             $message = sprintf('سفارش شما (%s) با شماره پیگیری %d با موفقیت پرداخت شد.', $transaction->order_id, $reference_id);
-           
+
            
             Order::where('id',$transaction->order_id)->update(['status'=>'payed']);
             Reserve::where('order_id',$transaction->order_id)->update(['status'=>'payed']);
