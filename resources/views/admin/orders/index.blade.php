@@ -1,5 +1,7 @@
 @extends('admin.layouts.master');
-<?php 
+<?php
+
+use Carbon\Carbon;
 use Morilog\Jalali\Jalalian;
 ?>
 @section('content')
@@ -23,16 +25,17 @@ use Morilog\Jalali\Jalalian;
                                     </select> در هر صفحه</label>
                             </div>
                         </div> -->
-                        <table id="example" class="display dataTable" style="min-width: 845px;width:100%" role="grid" aria-describedby="example_info">
+                        <table id="example" class="display dataTable" style="min-width: 1275px;width:100%" role="grid" aria-describedby="example_info">
                             <thead>
                                 <tr role="row">
                                     <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">نام</th>
                                     <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">نام مجموعه</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" >شماره تماس</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" >مبلغ</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" >کد پیگیری</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" >تعداد</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" >تاریخ ثبت</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">شماره تماس</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">مبلغ</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 200px;">کد پیگیری</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">تعداد</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">مدت اقامت</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending">تاریخ ثبت</th>
                                     <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending">وضعیت</th>
                                 </tr>
                             </thead>
@@ -48,8 +51,22 @@ use Morilog\Jalali\Jalalian;
                                     <td>{{$item->item->title}}</td>
                                     <td>{{$item->user->phone}}</td>
                                     <td>{{$item->total_price}}</td>
-                                    <td>{{@$item->payment->reference_id}}</td>
-                                    <td>{{$item->reserves_count}}</td>
+                                    <td> <p style="width: 220px" class="p-0 m-0">{{@$item->payment->reference_id}}</p></td>
+                                    <td>
+                                        @if($item->item->categore->slug==='hotels')
+                                        @foreach($item->reserves as $reserve)
+                                        <p class="p-0 m-0">{{$reserve->itemRoomType->roomType->title}} : {{$reserve->count}}</p>
+                                        @endforeach
+                                        @else
+                                        {{$item->reserves[0]->count}}
+                                        @endif
+                                    </td>
+                                    <td class="ltr">
+                                          @if($item->item->categore->slug==='hotels')
+                                          <p class="p-0 m-0"> {{Jalalian::fromCarbon(Carbon::parse($item->reserves[0]->start_at))->format('%Y/%m/%d')}} : شروع </p>
+                                          <p class="p-0 m-0"> {{Jalalian::fromCarbon(Carbon::parse($item->reserves[0]->end_at))->format('%Y/%m/%d')}} : پایان </p>
+                                          @endif
+                                    </td>
                                     <td class="ltr">{{Jalalian::fromCarbon($item->created_at)->format('%Y/%m/%d h:i')}}</td>
                                     <td>{{$item->status=='payed' ? 'موفق' : 'ناموفق'}}</td>
                                 </tr>

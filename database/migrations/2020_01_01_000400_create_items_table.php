@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('logo_image')->nullable();
+            $table->text('description')->after('title')->nullable();
             $table->string('main_image');
             $table->unsignedInteger('price')->nullable();
             $table->longText('image_gallery');

@@ -109,7 +109,7 @@ class ItemCtrl extends Controller
 
 
         if ($item['categore_id'] != 1) {
-            $item['price'] = $request->price;
+            $item['price'] = convert($request->price);
         }
         $item = Item::create($item);
         $item->save();
@@ -119,7 +119,7 @@ class ItemCtrl extends Controller
                 if ($roomType['check'] == true || $roomType['check'] == 'on') {
 
                     $item->roomTypes()->attach([$key => [
-                        'price' => $roomType['price']
+                        'price' => convert($roomType['price'])
                     ]]);
                 }
             }
@@ -208,7 +208,7 @@ class ItemCtrl extends Controller
 
         $item->update($updateData);
         if ($item->categore->slug  != 'hotels') {
-            $item->update(['price' => $request->price]);
+            $item->update(['price' => convert($request->price)]);
         } else {
             foreach ($request->roomType as $key => $roomType) {
                 $existRoomType = null;
@@ -223,7 +223,7 @@ class ItemCtrl extends Controller
                         'price' => $roomType['price']
                     ]);
                 } else {
-                    $item->roomTypes()->attach($key, ['price' => $roomType['price']]);
+                    $item->roomTypes()->attach($key, ['price' => convert($roomType['price'])]);
                 }
             }
 

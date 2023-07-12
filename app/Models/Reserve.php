@@ -11,4 +11,9 @@ class Reserve extends Model
 
     protected $guarded = [];
 
+
+    public function ItemRoomType(){
+        return $this->belongsTo(ItemRoomType::class);
+    }
+
 }

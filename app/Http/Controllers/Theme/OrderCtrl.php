@@ -70,9 +70,10 @@ class OrderCtrl extends Controller
         $dayCount = 0;
 
         if ($categore->slug == 'hotels') {
-            $startDate = Jalalian::fromFormat('Y/m/d', $this->convert($request->start_at))->toCarbon();
-            $endDate = Jalalian::fromFormat('Y/m/d', $this->convert($request->end_at))->toCarbon();
-            $dayCount = $endDate->diffInDays($startDate) + 1;
+            $startDate = Jalalian::fromFormat('Y/m/d', convert($request->start_at))->toCarbon();
+            $endDate = Jalalian::fromFormat('Y/m/d', convert($request->end_at))->toCarbon();
+            $dayCount = $endDate->diffInDays($startDate);
+            if ($dayCount == 0) $dayCount = 1;
         }
 
         $total_price = 0;
@@ -80,26 +81,28 @@ class OrderCtrl extends Controller
         $reserves = [];
 
         foreach ($request->qutity as $key => $value) {
-            $price = 0;
-            if ($categore->slug == 'hotels') {
-                $roomType = ItemRoomType::findOrFail($key);
-                $price = $roomType->price * $value['count'] * $dayCount;
-            } else {
-                $roomType = Item::where('id', $request->item_id)->first();
-                $price = $roomType->price * $value['count'];
+            if ($value['count'] > 0) {
+                $price = 0;
+                if ($categore->slug == 'hotels') {
+                    $roomType = ItemRoomType::findOrFail($key);
+                    $price = $roomType->price * $value['count'] * $dayCount;
+                } else {
+                    $roomType = Item::where('id', $request->item_id)->first();
+                    $price = $roomType->price * $value['count'];
+                }
+                $total_count += $value['count'];
+                $total_price += $price;
+                $reserves[] = [
+                    'item_id'           => $request->item_id,
+                    'user_id'           => $user->id,
+                    'price'             => $price,
+                    'count'             => $value['count'],
+                    'item_room_type_id' => $request->categore_id == 1 ? $roomType->id : null,
+                    'start_at'          => $startDate,
+                    'end_at'            => $endDate,
+                    'status'            => 'waittopay',
+                ];
             }
-
-            $total_count += $value['count'];
-            $total_price += $price;
-            $reserves[] = [
-                'item_id'           => $request->item_id,
-                'user_id'           => $user->id,
-                'price'             => $price,
-                'count'             => $value['count'],
-                'item_room_type_id' => $request->categore_id == 1 ? $roomType->id : null,
-                'start_at'          => $startDate,
-                'end_at'            => $endDate,
-            ];
         }
 
         if ($total_count === 0) {
@@ -125,17 +128,6 @@ class OrderCtrl extends Controller
         return (new PaymentController())->index($order->id, $order->total_price);
     }
 
-    function convert($string)
-    {
-        $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-
-        $num = range(0, 9);
-        $convertedPersianNums = str_replace($persian, $num, $string);
-        $englishNumbersOnly = str_replace($arabic, $num, $convertedPersianNums);
-
-        return $englishNumbersOnly;
-    }
 
     /**
      * Display the specified resource.
