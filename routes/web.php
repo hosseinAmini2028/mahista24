@@ -39,7 +39,7 @@ Route::prefix('admin/items')->name('admin.items.')->middleware(['auth.admin'])->
   Route::get('create',[ItemCtrl::class,'create'])->name('create');
   Route::get('edit/{item_id}',[ItemCtrl::class,'edit'])->name('edit');
   Route::post('/{item_id}',[ItemCtrl::class,'update'])->name('update');
-  Route::get('/{item_id}',[ItemCtrl::class,'delete'])->name('delete');
+  Route::get('/{item_id}',[ItemCtrl::class,'destroy'])->name('delete');
   Route::get('/',[ItemCtrl::class,'index'])->name('index');
   Route::post('/',[ItemCtrl::class,'store'])->name('store');
 });
