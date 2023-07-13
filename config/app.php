@@ -155,6 +155,8 @@ return [
     |
     */
 
+    'admin_phones' => explode(',',env('ADMIN_PHONES','')),
+
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Package Service Providers...
