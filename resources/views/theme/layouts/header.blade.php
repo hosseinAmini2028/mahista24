@@ -13,7 +13,6 @@
 
                 <li class="nav-item active"><a class="nav-link" href="#" role="button">صفحه اصلی</a></li>
                 <li class="nav-item "><a class="nav-link" href="#" role="button">هتل</a></li>
-                <li class="nav-item "><a class="nav-link" href="#" role="button">بلیط قطار</a></li>
                 <li class="nav-item "><a class="nav-link" href="#" role="button">تور</a></li>
                 <li class="nav-item "><a class="nav-link" href="#" role="button">ویلا و اقامتگاه</a></li>
                 

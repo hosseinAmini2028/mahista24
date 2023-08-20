@@ -1,5 +1,5 @@
 @extends('theme.layouts.master')
-@section('title', 'رزرو بلیط هواپیما، هتل و اتوبوس')
+@section('title', 'رزرو بلیط هتل و اتوبوس')
 
 @section('content')
 
@@ -34,12 +34,6 @@
                                         class="dropdown-toggle-label">دسته بندی ها</span></button>
                                 <input type="hidden">
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="fi-bed fs-lg opacity-60 me-2"></i><span
-                                                class="dropdown-item-label">بلیط هواپیما</span></a></li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="fi-cafe fs-lg opacity-60 me-2"></i><span
-                                                class="dropdown-item-label">بلیط قطار</span></a></li>
                                     <li><a class="dropdown-item" href="#"><i
                                                 class="fi-shopping-bag fs-lg opacity-60 me-2"></i><span
                                                 class="dropdown-item-label">تور</span></a></li>
