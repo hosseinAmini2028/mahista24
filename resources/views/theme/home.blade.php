@@ -261,7 +261,7 @@
                 <div>
                     <div class="row">
                         <div class="col-md-7 mb-md-0 mb-3"><img class="position-relative rounded-3 zindex-5"
-                                src="{{asset('theme-assets/img/esfahan-khaju-bridge.jpg')}}" alt="Article image"></div>
+                                src="{{asset('theme-assets/img/esfahan-khaju-bridge.png')}}" alt="Article image"></div>
                         <div class="col-md-5">
                             <h3 class="h4 from-top">پل خواجو</h3>
                             <ul class="list-unstyled delay-2 from-end">
